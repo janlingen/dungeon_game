@@ -28,16 +28,6 @@
   - for example <strong>./dungeon -i inputs.txt -o output.txt level/3.txt  </strong>
   
 
-## Example:
- 
-/#################
-/#               #
-/#         v  S ^#
-/#               #
-/#  <      #######
-/#      >  #
-/#    A    #
-/#         #
-/###########
+
  
 
