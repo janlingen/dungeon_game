@@ -1,31 +1,31 @@
-#Welcome to my dungeon game.
+# Welcome to my dungeon game.
 
-##how to play:
+## how to play:
   - clone the repository
   - decide between make compile and make run
-  - make run runs the program immediately, which starts the default level 1
-  - make compile, then ./dungeon levelname, to start your desired level
+  - <strong>make run</strong> runs the program immediately, which starts the default level 1
+  - <strong>make compile</strong>, then <strong>./dungeon levelname</strong>, to start your desired level
   - i have some predefined levels available in the level folder
-  - for example ./dungeon level/2.txt starts the second level
-  - basic controlls W, A, S, D
+  - for example<strong> ./dungeon level/2.txt</strong> starts the second level
+  - basic controlls <strong>W, A, S, D</strong>
 
-##how to create a level yourself:
+## how to create a level yourself:
   - create a normal .txt file
-  - &# are walls
+  - <strong>\# </strong>are walls
       - it is important that there are no gaps in the created walls
       - to get a better feel for whats possible just take a look into the level folder
-  - S is the player
+  - <strong>S</strong> is the player
       - only one player is allowed
-  - A is the exit
+  - <strong>A</strong> is the exit
       - you can place several exits
-  - <, >, ^, v are the monsters and their movement direction
+  - <strong><, >, ^, v</strong> are the monsters and their movement direction
   
-  ##which options are avaliable:
-  - -i inputfilename
+  ## which options are avaliable:
+  - <strong>-i inputfilename</strong>
     - enables you to predefine a sequence of inputs W, A, S, D in an .txt file
-  - -o outputfilename
+  - <strong>-o outputfilename</strong>
     - enables you to choose an outputfile
-  - for example ./dungeon -i inputs.txt -o output.txt level/3.txt  
+  - for example <strong>./dungeon -i inputs.txt -o output.txt level/3.txt  </strong>
   
 
 
