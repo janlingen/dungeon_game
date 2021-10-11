@@ -10,7 +10,6 @@ void monster_rules(Level *l) {
     int nextColumn = 0;
     int nextRow = 0;
     for (int i = l->monsters - 1; i >= 0; i--) {
-        /* switch-case ermittelt in welche richtung man geht bzw. schaut ob A oder # */
         switch (l->m[i].direction) {
             case RIGHT:
                 nextColumn = l->m[i].y + 1;
@@ -80,15 +79,12 @@ char change_direction(Monster *m) {
 }
 
 void player_move_rules(Level *l, short x_offset, short y_offset) {
-    /* keine bewegung bei # */
     if (l->map[l->p.x + x_offset][l->p.y + y_offset] == '#') {
         l->p.y += 0;
         l->p.x += 0;
-        /* keine bewegung bei A */
     } else if (l->map[l->p.x + x_offset][l->p.y + y_offset] == 'A') {
         l->map[l->p.x][l->p.y] = ' ';
         l->p.win = 1;
-        /* regulaer laufen */
     } else {
         l->map[l->p.x][l->p.y] = ' ';
         l->p.y += y_offset;
@@ -118,8 +114,6 @@ void print_level(Level *l, FILE *print) {
         for (int y = 0; y < l->columns; y++) {
             if (l->p.x == x && l->p.y == y && l->p.win == 0 && l->p.dead == 0) {
                 fprintf(print, "S");
-                /* essentiell damit die NULL calloced felder nicht geprinted werden und UTF-8 nicht
-                 * verletzt wird */
             } else if (l->map[x][y] == '>' || l->map[x][y] == '<' || l->map[x][y] == 'v' ||
                        l->map[x][y] == '^' || l->map[x][y] == ' ' || l->map[x][y] == '#' ||
                        l->map[x][y] == 'A' || l->map[x][y] == '\n') {
@@ -141,7 +135,6 @@ void set_player(Player *p, int x, int y) {
 }
 
 void map_memory_allocation(Level *l) {
-    /* reserviert speicher fuer das spielfeld und das monster array */
     l->map = calloc(l->rows, sizeof(char *));
     for (int i = 0; i < l->rows; i++) {
         l->map[i] = calloc(l->columns, sizeof(char));
@@ -150,7 +143,6 @@ void map_memory_allocation(Level *l) {
 }
 
 void build_level(FILE *in, Level *l) {
-    /* scannt die eingabe nach den figuren und setzt sie */
     l->p.dead = 0;
     l->p.win = 0;
     char chr;
@@ -190,7 +182,6 @@ void build_level(FILE *in, Level *l) {
 }
 
 void count_all(FILE *in, Level *l) {
-    /* fprintf(stderr, "ich bin ein debugindikator, funktion erreicht"); */
     char chr;
     int column = 0;
     l->columns = 0;
@@ -244,11 +235,9 @@ void play_game(Level *l, FILE *out, FILE *command) {
     char key;
     int round = 1;
 
-    /* printed das spielfeld einmal im ausgangszustand */
     print_level(l, out);
     monster_cleanup(l);
 
-    /* laesst spiel solange laufen bis tot oder sieg */
     while (l->p.win == 0 && l->p.dead == 0) {
         key = fgetc(command);
         if ((key == 'w') || (key == 'a') || (key == 's') || (key == 'd')) {
@@ -280,7 +269,6 @@ void game_manager(Level *l, FILE *out, FILE *command) {
 }
 
 short file_read_error(FILE **file) {
-    /* testet ob man in dem file etwas lesen kann */
     char test;
     if ((test = fgetc(*file)) == EOF) {
         return 1;
@@ -297,13 +285,13 @@ short options_handling(int *argc, char **argv[], FILE **out, FILE **command) {
     while ((opt = getopt(*argc, *argv, "i:o:")) != -1) {
         switch (opt) {
             case 'i':
-                if (toManyI == 0) { /* test doppelte option */
+                if (toManyI == 0) { 
                     *command = fopen(optarg, "r");
-                    if (!*command) { /* test ob file geoeffnet werden kann */
+                    if (!*command) { 
                         fprintf(stderr, "Fehler: Datei nicht geoeffnet!(Befehle)\n");
                         return 1;
                     }
-                    if (file_read_error(command) == 1) { /* test ob file gelesen werden konnte */
+                    if (file_read_error(command) == 1) {
                         fprintf(stderr, "Fehler: Datei nicht gelesen!(Befehle)\n");
                         return 2;
                     }
@@ -314,9 +302,9 @@ short options_handling(int *argc, char **argv[], FILE **out, FILE **command) {
                 }
                 break;
             case 'o':
-                if (toManyO == 0) { /* test doppelte option */
+                if (toManyO == 0) { 
                     *out = fopen(optarg, "w");
-                    if (!*out) { /* test ob file geoeffnet werden kann */
+                    if (!*out) {
                         fprintf(stderr, "Fehler: Datei nicht geoeffnet!(Ausgabe)\n");
                         return 1;
                     }
@@ -338,9 +326,9 @@ short options_handling(int *argc, char **argv[], FILE **out, FILE **command) {
 
 short open_leveldata(int *argc, char **argv[], FILE **in) {
     if (*argc == 0) {
-        *in = fopen("level/1.txt", "r"); /* standardfall */
+        *in = fopen("level/1.txt", "r");
     } else {
-        if (!(*in = fopen(*argv[0], "r"))) { /* spezifisches level */
+        if (!(*in = fopen(*argv[0], "r"))) {
             fprintf(stderr, "Fehler: Datei nicht geoeffnet!(Level)\n");
             return 1;
         }
